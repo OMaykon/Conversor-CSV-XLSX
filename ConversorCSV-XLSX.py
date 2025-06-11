@@ -19,6 +19,11 @@ def process_csv(df, basename):
 
         if 'Patient ID' in df.columns:
             df.rename(columns={'Patient ID': 'ImportedId'}, inplace=True)
+            
+        if 'OtherDocumentId' in df.columns:
+            df['OtherDocumentId'] = df['OtherDocumentId'].apply(
+                lambda x: str(x).zfill(11) if pd.notnull(x) and str(x).strip() != '' else x
+            )    
 
     elif "appointment" in basename:
         if 'FromTime' in df.columns:
