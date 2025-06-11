@@ -86,6 +86,7 @@ st.markdown("""
             
     Este aplicativo permite carregar arquivos CSV, processá-los e convertê-los para XLSX.
     Os arquivos convertidos serão disponibilizados para download em um arquivo ZIP.
+    
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
 """)
 
