@@ -73,7 +73,7 @@ def process_csv(df, basename):
 
     return df
 
-st.title("Conversão de arquivo.CSV para .XLSX")
+st.title("Conversão de arquivo .CSV para .XLSX")
 st.markdown("""
     Os arquivos são identificados por nome, e deve devem ter os nomes exatos:
     - patient.csv
