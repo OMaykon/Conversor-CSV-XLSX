@@ -23,7 +23,19 @@ def process_csv(df, basename):
         if 'OtherDocumentId' in df.columns:
             df['OtherDocumentId'] = df['OtherDocumentId'].apply(
                 lambda x: str(x).zfill(11) if pd.notnull(x) and str(x).strip() != '' else x
-            )    
+            )
+
+        if 'CivilStatus' in df.columns:
+            df['CivilStatus'] = df['CivilStatus'].replace({
+                'Casado (MARRIED)': 'MARRIED',
+                'Casado': 'MARRIED',
+                'Solteiro (SINGLE)': 'SINGLE',
+                'Solteiro': 'SINGLE',
+                'Divorciado (DIVORCED)': 'DIVORCED',
+                'Divorciado': 'DIVORCED',
+                'Viúvo (WIDOWED)': 'WIDOWED',
+                'Viúvo': 'WIDOWED'
+            })
 
     elif "appointment" in basename:
         if 'FromTime' in df.columns:
