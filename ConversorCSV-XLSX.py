@@ -39,10 +39,27 @@ def process_csv(df, basename):
 
     elif "appointment" in basename:
         if 'FromTime' in df.columns:
-            df.insert(0, 'fromTime', df.pop('fromTime'))
+            df.insert(0, 'fromTime', df.pop('fromTime'), inplace=True)
+            
+        if 'ToTime' in df.columns:
+            df.rename(columns={'ToTime': 'toTime'}, inplace=True)
+
+        if 'Date' in df.columns:
+            df.rename(columns={'Date': 'date'}, inplace=True)
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'Appointment')
+        
+        if 'Status' in df.columns:
+            df['Status'] = df['Status'].replace({
+                'Faltou': 'MISSED',
+                'Atendido': 'CHECKOUT',
+                'Agendado': 'CONFIRMED',
+                'Cancelado Dentist': 'CANCELED_DENTIST',
+                'Cancelado Patient': 'CANCELED_PATIENT',
+                'Atrasado': 'LATE',
+                'Em espera': 'ARRIVED'
+            })    
 
     elif "bookentry" in basename:
         if 'PostDate' in df.columns:
