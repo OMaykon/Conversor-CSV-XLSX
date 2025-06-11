@@ -73,7 +73,7 @@ def process_csv(df, basename):
 
     return df
 
-st.title("Processamento e Visualização de CSV")
+st.title("Conversão de arquivo.CSV para .XLSX")
 st.markdown("""
     Os arquivos são identificados por nome, e deve devem ter os nomes exatos:
     - patient.csv
@@ -86,6 +86,7 @@ st.markdown("""
             
     Este aplicativo permite carregar arquivos CSV, processá-los e convertê-los para XLSX.
     Os arquivos convertidos serão disponibilizados para download em um arquivo ZIP.
+    OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
 """)
 
 uploaded_files = st.file_uploader("Escolha arquivos CSV", type="csv", accept_multiple_files=True)
