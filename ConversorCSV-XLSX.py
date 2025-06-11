@@ -39,7 +39,7 @@ def process_csv(df, basename):
 
     elif "appointment" in basename:
         if 'FromTime' in df.columns:
-            df.insert(0, 'FromTime', df.pop('FromTime'))
+            df.insert(0, 'fromTime', df.pop('fromTime'))
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'Appointment')
