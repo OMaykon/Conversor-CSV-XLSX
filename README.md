@@ -1,0 +1,1 @@
+Lê arquivos carregados e se o arquivo for um .CSV converte ele para .CSV, padroniza colunas para importação e remove pequenos erros; agora, se o arquivo já for .XSLX, modela algumas colunas, como a coluna de Status, seguindo o padrão de documentação de importação
