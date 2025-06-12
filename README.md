@@ -1,1 +1,2 @@
-Lê arquivos carregados e se o arquivo for um .CSV converte ele para .CSV, padroniza colunas para importação e remove pequenos erros; agora, se o arquivo já for .XSLX, modela algumas colunas, como a coluna de Status, seguindo o padrão de documentação de importação
+Lê arquivos carregados, e se o arquivo for um .CSV converte ele para .XLSX, padroniza colunas para importação e remove pequenos erros; agora, se o arquivo já for .XSLX, modela algumas colunas, como a coluna de Status, seguindo o padrão de documentação de importação.
+Os arquivos são identificados por nome, então eles devem seguir o padrão [patient, appointment, bookentry, dentist, financialclinics, openbudget, treatmentoperation], pegando cada coluna-chave e modelando de acordo com o tipo do arquivo.
