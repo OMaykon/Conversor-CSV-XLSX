@@ -10,7 +10,8 @@ def process_xlsx(file):
     df = pd.read_excel(file, engine='openpyxl')
     
     # Processa o DataFrame conforme necessário
-    if 'patient' in file.name.lower():
+    # verifica se tem o nome 'patient' ou 'Patient' no nome do arquivo
+    if 'patient' in file.name.lower() or 'Patient' in file.name:
         if 'Type' not in df.columns:
             df.insert(0, 'Type', 'PATIENT')
         else:
@@ -38,7 +39,17 @@ def process_xlsx(file):
                 'Viúvo (WIDOWED)': 'WIDOWED',
                 'Viúvo': 'WIDOWED'
             })
-    elif 'appointment' in file.name.lower():
+    elif 'dentist' in file.name.lower() or 'Dentist' in file.name:
+        if 'Type' not in df.columns:
+            df.insert(0, 'Type', 'DENTIST')
+        else:
+            df.insert(0, 'Type', df.pop('Type'))
+
+        if 'ImportType' not in df.columns:
+            df.insert(1, 'ImportType', 'Person')
+
+    elif 'appointment' in file.name.lower() or 'Appointment' in file.name:
+        # Verifica se as colunas FromTime, ToTime e Date existem e renomeia ou insere conforme necessário
     
         if 'FromTime' in df.columns:
             df.insert(0, 'FromTime', df.pop('FromTime'))
@@ -65,23 +76,14 @@ def process_xlsx(file):
                 'Em espera': 'ARRIVED'
             })
 
-    elif 'bookentry' in file.name.lower():
+    elif 'bookentry' in file.name.lower() or 'BookEntry' in file.name:
         if 'PostDate' in df.columns:
             df.insert(0, 'PostDate', df.pop('PostDate'))
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'BookEntry')
 
-    elif 'dentist' in file.name.lower():
-        if 'Type' not in df.columns:
-            df.insert(0, 'Type', 'DENTIST')
-        else:
-            df.insert(0, 'Type', df.pop('Type'))
-
-        if 'ImportType' not in df.columns:
-            df.insert(1, 'ImportType', 'Person')
-
-    elif 'financialclinics' in file.name.lower():
+    elif 'financialclinics' in file.name.lower() or 'FinancialClinics' in file.name:
         if 'Account' not in df.columns:
             df.insert(0, 'Account', 'Caixa Geral')
         else:
@@ -89,18 +91,18 @@ def process_xlsx(file):
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'FinancialClinics')
 
-    elif 'openbudget' in file.name.lower():
+    elif 'openbudget' in file.name.lower() or 'OpenBudget' in file.name:
         if 'TableName' not in df.columns:
             df.insert(0, 'TableName', 'Importação')
         else:
             df.insert(0, 'TableName', df.pop('TableName'))
         if 'ImportType' not in df.columns:
-            df.insert(1, 'ImportType', 'Person')
+            df.insert(1, 'ImportType', 'Budget')
 
         if 'SpecialtyDescription' not in df.columns:
             df.insert('SpecialtyDescription', 'Clínica Geral')
 
-    elif 'treatmentoperation' in file.name.lower():
+    elif 'treatmentoperation' in file.name.lower() or 'TreatmentOperation' in file.name:
         if 'ProcedureDescription' in df.columns:
             df.insert(0, 'ProcedureDescription', df.pop('ProcedureDescription'))
             df['ProcedureDescription'].fillna('Consulta', inplace=True)
@@ -251,7 +253,6 @@ uploaded_files = st.file_uploader(
 if not uploaded_files:
     st.warning("Por favor, carregue um ou mais arquivos CSV ou XLSX para conversão.")
     st.stop()
-
 # Processa os arquivos carregados
 xlsx_files = []
 
