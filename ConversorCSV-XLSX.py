@@ -4,6 +4,7 @@ import os
 from io import BytesIO
 import zipfile
 # Conversor de CSV para XLSX com Streamlit
+st.cache_data.clear()
 
 # Função para processar o xlsx
 def process_xlsx(file):
