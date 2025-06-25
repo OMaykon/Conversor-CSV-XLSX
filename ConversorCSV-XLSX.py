@@ -265,8 +265,11 @@ st.markdown("""
     Os arquivos convertidos serão disponibilizados para download em um arquivo ZIP.
 
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
+    
     |
-    | Version: 0.25.06-1108
+    
+    | Version: 0.25.06-1108.
+    
     |
 """)
 
