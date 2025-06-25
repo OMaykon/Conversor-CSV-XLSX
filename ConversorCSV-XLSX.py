@@ -6,6 +6,7 @@ import zipfile
 # Conversor de CSV para XLSX com Streamlit
 st.cache_data.clear()
 
+# ============================================== Regras de negócio ==============================================
 # Função para processar o xlsx
 def process_xlsx(file):
     df = pd.read_excel(file, engine='openpyxl')
@@ -113,6 +114,7 @@ def process_xlsx(file):
             df.insert(1, 'ImportType', 'TreatmentOperation')
     return df
 
+# Processamento xlsx
 def process_csv(df, basename):
     basename = basename.lower()
 
@@ -223,6 +225,7 @@ def process_csv(df, basename):
             df.insert(1, 'ImportType', 'TreatmentOperation')
     return df
 
+# ============================================== UI ==============================================
 st.title("Conversão/Modelagem de arquivo .CSV para .XLSX")
 st.markdown("""
     Os arquivos são identificados por nome, e deve devem ter os nomes exatos:
@@ -232,9 +235,7 @@ st.markdown("""
     - dentist
     - financialclinics
     - openbudget
-    - treatmentoperation
-    
-            
+    - treatmentoperation /n/n
     - Permite carregar arquivos CSV, processá-los e convertê-los para XLSX.
     - Permite carregar arquivos XLSX, processá-los e modelar removendo alguns erros comuns.
     Os arquivos convertidos serão disponibilizados para download em um arquivo ZIP.
@@ -251,8 +252,9 @@ uploaded_files = st.file_uploader(
     help="Carregue um ou mais arquivos CSV ou XLSX para conversão."
 )
 
-# Iniciar a conversão dos arquivos carregados e salvar cada um deles separadamente com o nome original mas em formato XLSX, depois zipar e fazer o download do zip
-# identiifica o tipo de arquivo pelo nome do arquivo, e processa de acordo com o tipo
+# ============================================== Processamento dos arquivos ==============================================
+# Iniciar a conversão dos arquivos carregados e salva cada um deles separadamente com o nome original mas em formato XLSX, depois zipar e fazer o download do zip
+# identiifica o tipo de arquivo pelo nome do arquivo, e processa de acordo com o tipo (csv ou xlsx)
 if not uploaded_files:
     st.warning("Por favor, carregue um ou mais arquivos CSV ou XLSX para conversão.")
     st.stop()
