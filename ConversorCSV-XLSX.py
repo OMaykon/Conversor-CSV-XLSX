@@ -110,7 +110,7 @@ def process_xlsx(file):
             df.insert(0, 'TableName', df.pop('TableName'))
 
         if 'ImportType' not in df.columns:
-            df.insert(1, 'ImportType', 'Budget')
+            df.insert(1, 'ImportType', 'Budgets')
 
         if 'SpecialtyDescription' not in df.columns:
             df.insert(len(df.columns), 'SpecialtyDescription', 'Clínica Geral')
@@ -227,7 +227,7 @@ def process_csv(df, basename):
             df.insert(0, 'TableName', df.pop('TableName'))
 
         if 'ImportType' not in df.columns:
-            df.insert(1, 'ImportType', 'Person')
+            df.insert(1, 'ImportType', 'Budgets')
 
         if 'SpecialtyDescription' not in df.columns:
             df.insert(len(df.columns), 'SpecialtyDescription', 'Clínica Geral')
@@ -265,6 +265,9 @@ st.markdown("""
     Os arquivos convertidos serão disponibilizados para download em um arquivo ZIP.
 
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
+    |
+    | Version: 0.25.06-1108
+    |
 """)
 
 uploaded_files = st.file_uploader(
