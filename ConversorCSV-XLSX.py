@@ -267,9 +267,7 @@ st.markdown("""
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
     
     |
-    
     | Version: 0.25.06-1108.
-    
     |
 """)
 
