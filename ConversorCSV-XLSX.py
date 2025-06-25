@@ -227,6 +227,17 @@ st.title("Conversão/Modelagem de arquivo .CSV para .XLSX")
 st.markdown("""
     Os arquivos são identificados por nome, e deve devem ter os nomes exatos:
     - patient
+    - appointment
+    - bookentry
+    - dentist
+    - financialclinics
+    - openbudget
+    - treatmentoperation
+    
+            
+    - Permite carregar arquivos CSV, processá-los e convertê-los para XLSX.
+    - Permite carregar arquivos XLSX, processá-los e modelar removendo alguns erros comuns.
+    Os arquivos convertidos serão disponibilizados para download em um arquivo ZIP.
     
     
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
