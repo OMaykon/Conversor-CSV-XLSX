@@ -13,11 +13,13 @@ def convert_date_columns(df, columns):
             df[col] = pd.to_datetime(df[col], errors='coerce')
     return df
 
-# ============================================== Regras de negócio ==============================================
+# ============================================= Regras de negócio ===============================================
+
+# ====================================== Processamento de arquivos XLSX =========================================
 def process_xlsx(file):
     df = pd.read_excel(file, engine='openpyxl')
 
-    if 'patient' in file.name.lower():
+    if 'patient' in file.name.lower() or 'Patient' in file.name:
         if 'Type' not in df.columns:
             df.insert(0, 'Type', 'PATIENT')
         else:
@@ -48,7 +50,7 @@ def process_xlsx(file):
 
         df = convert_date_columns(df, ['BirthDate'])
 
-    elif 'dentist' in file.name.lower():
+    elif 'dentist' in file.name.lower() or 'Dentist' in file.name:
         if 'Type' not in df.columns:
             df.insert(0, 'Type', 'DENTIST')
         else:
@@ -57,7 +59,7 @@ def process_xlsx(file):
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'Person')
 
-    elif 'appointment' in file.name.lower():
+    elif 'appointment' in file.name.lower() or 'Appointment' in file.name:
         if 'FromTime' in df.columns:
             df.insert(0, 'FromTime', df.pop('FromTime'))
             df.rename(columns={'FromTime': 'fromTime'}, inplace=True)
@@ -85,7 +87,7 @@ def process_xlsx(file):
 
         df = convert_date_columns(df, ['date'])
 
-    elif 'bookentry' in file.name.lower():
+    elif 'bookentry' in file.name.lower() or 'BookEntry' in file.name:
         if 'PostDate' in df.columns:
             df.insert(0, 'PostDate', df.pop('PostDate'))
 
@@ -94,7 +96,7 @@ def process_xlsx(file):
 
         df = convert_date_columns(df, ['PostDate', 'DueDate', 'ConfirmedDate', 'ReceivedDate'])
 
-    elif 'financialclinics' in file.name.lower():
+    elif 'financialclinics' in file.name.lower() or 'FinancialClinics' in file.name:
         if 'Account' not in df.columns:
             df.insert(0, 'Account', 'Caixa Geral')
         else:
@@ -103,7 +105,7 @@ def process_xlsx(file):
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'FinancialClinics')
 
-    elif 'openbudget' in file.name.lower():
+    elif 'openbudget' in file.name.lower() or 'budget' in file.name.lower() or 'OpenBudget' in file.name:
         if 'TableName' not in df.columns:
             df.insert(0, 'TableName', 'Importação')
         else:
@@ -117,12 +119,16 @@ def process_xlsx(file):
 
         df = convert_date_columns(df, ['BudgetsCreateDate'])
 
-    elif 'treatmentoperation' in file.name.lower():
-        if 'ProcedureDescription' in df.columns:
+    elif 'treatmentoperation' in file.name.lower() or 'TreatmentOperation' in file.name:
+        if 'ProcedureDescription' in df.columns or 'Procedure' in df.columns or 'ProcedureName' in df.columns:
             df.insert(0, 'ProcedureDescription', df.pop('ProcedureDescription'))
             df['ProcedureDescription'].fillna('Consulta', inplace=True)
         else:
             st.warning("Coluna ProcedureDescription não encontrada")
+            df.insert(0, 'ProcedureDescription', 'Consulta')
+            df['ProcedureDescription'].fillna('Consulta', inplace=True)
+
+        
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'TreatmentOperation')
@@ -131,10 +137,12 @@ def process_xlsx(file):
 
     return df
 
+# ============================================== Processamento de CSV ==============================================
+
 def process_csv(df, basename):
     basename = basename.lower()
 
-    if "patient" in basename:
+    if "patient" in basename or "Patient" in basename:
         if 'Type' not in df.columns:
             df.insert(0, 'Type', 'PATIENT')
         else:
@@ -165,7 +173,7 @@ def process_csv(df, basename):
 
         df = convert_date_columns(df, ['BirthDate'])
 
-    elif "appointment" in basename:
+    elif "appointment" in basename or 'Appointment' in basename:
         if 'FromTime' in df.columns:
             df.insert(0, 'FromTime', df.pop('FromTime'))
             df.rename(columns={'FromTime': 'fromTime'}, inplace=True)
@@ -193,7 +201,7 @@ def process_csv(df, basename):
 
         df = convert_date_columns(df, ['date'])
 
-    elif "bookentry" in basename:
+    elif "bookentry" in basename or 'BookEntry' in basename:
         if 'PostDate' in df.columns:
             df.insert(0, 'PostDate', df.pop('PostDate'))
 
@@ -202,7 +210,7 @@ def process_csv(df, basename):
 
         df = convert_date_columns(df, ['PostDate', 'DueDate', 'ConfirmedDate', 'ReceivedDate'])
 
-    elif "dentist" in basename:
+    elif "dentist" in basename or 'Dentist' in basename:
         if 'Type' not in df.columns:
             df.insert(0, 'Type', 'DENTIST')
         else:
@@ -211,7 +219,7 @@ def process_csv(df, basename):
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'Person')
 
-    elif "financialclinics" in basename:
+    elif "financialclinics" in basename or "FinancialClinics" in basename:
         if 'Account' not in df.columns:
             df.insert(0, 'Account', 'Caixa Geral')
         else:
@@ -220,7 +228,7 @@ def process_csv(df, basename):
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'FinancialClinics')
 
-    elif "openbudget" in basename:
+    elif "openbudget" in basename or "budget" in basename or "OpenBudget" in basename:
         if 'TableName' not in df.columns:
             df.insert(0, 'TableName', 'Importação')
         else:
@@ -234,12 +242,14 @@ def process_csv(df, basename):
 
         df = convert_date_columns(df, ['BudgetsCreateDate'])
 
-    elif "treatmentoperation" in basename:
+    elif "treatmentoperation" in basename or "TreatmentOperation" in basename:
         if 'ProcedureDescription' in df.columns:
             df.insert(0, 'ProcedureDescription', df.pop('ProcedureDescription'))
             df['ProcedureDescription'].fillna('Consulta', inplace=True)
         else:
             st.warning("Coluna ProcedureDescription não encontrada")
+            df.insert(0, 'ProcedureDescription', 'Consulta')
+            df['ProcedureDescription'].fillna('Consulta', inplace=True)
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'TreatmentOperation')
@@ -249,6 +259,7 @@ def process_csv(df, basename):
     return df
 
 # ============================================== UI ==============================================
+
 st.title("Conversão/Modelagem de arquivo .CSV para .XLSX")
 st.markdown("""
     Os arquivos são identificados por nome, e devem ter os nomes exatos:
@@ -266,9 +277,8 @@ st.markdown("""
 
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
     
-    |
+
     | Version: 0.25.06-1108.
-    |
 """)
 
 uploaded_files = st.file_uploader(
