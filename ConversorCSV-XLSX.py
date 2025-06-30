@@ -63,9 +63,13 @@ def process_xlsx(file):
         if 'FromTime' in df.columns:
             df.insert(0, 'FromTime', df.pop('FromTime'))
             df.rename(columns={'FromTime': 'fromTime'}, inplace=True)
+            # Muda o formato de hora para 24h
+            df['fromTime'] = pd.to_datetime(df['fromTime'], format='%H:%M:%S', errors='coerce').dt.strftime('%H:%M:%S')
 
         if 'ToTime' in df.columns:
             df.rename(columns={'ToTime': 'toTime'}, inplace=True)
+            # Muda o formato de hora para 24h
+            df['toTime'] = pd.to_datetime(df['toTime'], format='%H:%M:%S', errors='coerce').dt.strftime('%H:%M:%S')
 
         if 'Date' in df.columns:
             df.rename(columns={'Date': 'date'}, inplace=True)
@@ -104,6 +108,10 @@ def process_xlsx(file):
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'FinancialClinics')
+        
+        if 'ReleaseDate' in df.columns:
+            # Converte ReleaseDate para datetime
+            df['ReleaseDate'] = pd.to_datetime(df['ReleaseDate'], errors='coerce')
 
     elif 'openbudget' in file.name.lower() or 'budget' in file.name.lower() or 'OpenBudget' in file.name:
         if 'TableName' not in df.columns:
@@ -177,9 +185,13 @@ def process_csv(df, basename):
         if 'FromTime' in df.columns:
             df.insert(0, 'FromTime', df.pop('FromTime'))
             df.rename(columns={'FromTime': 'fromTime'}, inplace=True)
+            # Muda o formato de hora para 24h
+            df['fromTime'] = pd.to_datetime(df['fromTime'], format='%H:%M:%S', errors='coerce').dt.strftime('%H:%M:%S')
 
         if 'ToTime' in df.columns:
             df.rename(columns={'ToTime': 'toTime'}, inplace=True)
+            # Muda o formato de hora para 24h
+            df['toTime'] = pd.to_datetime(df['toTime'], format='%H:%M:%S', errors='coerce').dt.strftime('%H:%M:%S')
 
         if 'Date' in df.columns:
             df.rename(columns={'Date': 'date'}, inplace=True)
@@ -227,6 +239,10 @@ def process_csv(df, basename):
 
         if 'ImportType' not in df.columns:
             df.insert(1, 'ImportType', 'FinancialClinics')
+
+        if 'ReleaseDate' in df.columns:
+            # Converte ReleaseDate para datetime
+            df['ReleaseDate'] = pd.to_datetime(df['ReleaseDate'], errors='coerce')
 
     elif "openbudget" in basename or "budget" in basename or "OpenBudget" in basename:
         if 'TableName' not in df.columns:
@@ -278,7 +294,7 @@ st.markdown("""
     OBS: adiciona as colunas ImportType e move as colunas-chave para a primeira posição na tabela.
     
 
-    | Version: 0.30.06-1004.
+    | Version: 0.25.06-1024.
 """)
 
 uploaded_files = st.file_uploader(
