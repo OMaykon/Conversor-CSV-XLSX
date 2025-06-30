@@ -96,7 +96,7 @@ def process_xlsx(file):
             df.insert(0, 'PostDate', df.pop('PostDate'))
 
         if 'ImportType' not in df.columns:
-            df.insert(1, 'ImportType', 'BookEntry')
+            df.insert(1, 'ImportType', 'FinancialSingle')
 
         df = convert_date_columns(df, ['PostDate', 'DueDate', 'ConfirmedDate', 'ReceivedDate'])
 
@@ -218,7 +218,7 @@ def process_csv(df, basename):
             df.insert(0, 'PostDate', df.pop('PostDate'))
 
         if 'ImportType' not in df.columns:
-            df.insert(1, 'ImportType', 'BookEntry')
+            df.insert(1, 'ImportType', 'FinancialSingle')
 
         df = convert_date_columns(df, ['PostDate', 'DueDate', 'ConfirmedDate', 'ReceivedDate'])
 
